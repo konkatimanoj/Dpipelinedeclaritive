@@ -1,0 +1,58 @@
+@Library('mylibrary')_
+pipeline
+{
+    agent any
+    stages
+    {
+        stage('cdownload')
+        {
+            steps
+            {
+                script
+                {
+                    cicd.gitDownload("maven")
+                }
+            }
+        }
+        stage('cbuild')
+        {
+            steps
+            {
+                script
+                {
+                    cicd.gitbuild()
+                }
+            }
+        }
+        stage('cdeploy')
+        {
+            steps
+            {
+                script
+                {
+                    cicd.gitdeploy("DPipeline","172.31.41.144","testing")
+                }
+            }
+        }
+        stage('ctest')
+        {
+            steps
+            {
+                script
+                {
+                    cicd.gitDownload("FunctionalTesting")
+                }
+            }
+        }
+        stage('cexec')
+        {
+            steps
+            {
+                script
+                {
+                    cicd.gitexec("DPipeline")
+                }
+            }
+        }
+    }
+}
